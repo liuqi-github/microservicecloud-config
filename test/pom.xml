@@ -3,7 +3,12 @@
   <groupId>liuqi</groupId>
   <artifactId>test</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
   <dependencyManagement>
-  
+  		<dependencies></dependencies>
   </dependencyManagement>
+  <modules>
+  	<module>son</module>
+  	<module>grandson</module>
+  </modules>
 </project>
