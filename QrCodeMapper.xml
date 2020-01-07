@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xja.wechat.dao.QrCodeMapper" >
+  <resultMap id="BaseResultMap" type="com.xja.wechat.entity.QrCode" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="openid" property="openid" jdbcType="VARCHAR" />
+    <result column="scene_str" property="scene_str" jdbcType="VARCHAR" />
+    <result column="expire_seconds" property="expire_seconds" jdbcType="INTEGER" />
+    <result column="ticket" property="ticket" jdbcType="VARCHAR" />
+    <result column="create_time" property="create_time" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, openid, scene_str, expire_seconds, ticket, create_time
+  </sql>
+  <select id="selectByOpenid" parameterType="java.lang.String" resultType="com.xja.wechat.entity.QrCode">
+  	select
+  	<include refid="Base_Column_List" />
+  	from qrcode
+  	where openid = #{openid}
+  </select>
+  <select id="selectByScene" parameterType="java.lang.String" resultType="com.xja.wechat.entity.QrCode">
+  	select
+  	<include refid="Base_Column_List" />
+  	from qrcode
+  	where scene_str = #{scene_str}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from qrcode
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from qrcode
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xja.wechat.entity.QrCode" >
+    insert into qrcode (id, openid, scene_str, 
+      expire_seconds, ticket, create_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{openid,jdbcType=VARCHAR}, #{scene_str,jdbcType=VARCHAR}, 
+      #{expire_seconds,jdbcType=TIMESTAMP}, #{ticket,jdbcType=VARCHAR}, #{create_time,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xja.wechat.entity.QrCode" >
+    insert into qrcode
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="openid != null" >
+        openid,
+      </if>
+      <if test="scene_str != null" >
+        scene_str,
+      </if>
+      <if test="expire_seconds != null" >
+        expire_seconds,
+      </if>
+      <if test="ticket != null" >
+        ticket,
+      </if>
+      <if test="create_time != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="scene_str != null" >
+        #{scene_str,jdbcType=VARCHAR},
+      </if>
+      <if test="expire_seconds != null" >
+        #{expire_seconds,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ticket != null" >
+        #{ticket,jdbcType=VARCHAR},
+      </if>
+      <if test="create_time != null" >
+        #{create_time,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xja.wechat.entity.QrCode" >
+    update qrcode
+    <set >
+      <if test="openid != null" >
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="scene_str != null" >
+        scene_str = #{scene_str,jdbcType=VARCHAR},
+      </if>
+      <if test="expire_seconds != null" >
+        expire_seconds = #{expire_seconds,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ticket != null" >
+        ticket = #{ticket,jdbcType=VARCHAR},
+      </if>
+      <if test="create_time != null" >
+        create_time = #{create_time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xja.wechat.entity.QrCode" >
+    update qrcode
+    set openid = #{openid,jdbcType=VARCHAR},
+      scene_str = #{scene_str,jdbcType=VARCHAR},
+      expire_seconds = #{expire_seconds,jdbcType=TIMESTAMP},
+      ticket = #{ticket,jdbcType=VARCHAR},
+      create_time = #{create_time,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

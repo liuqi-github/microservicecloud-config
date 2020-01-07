@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xja.wechat.dao.PullUserMapper" >
+  <resultMap id="BaseResultMap" type="com.xja.wechat.entity.PullUser" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="scan_id" property="scan_id" jdbcType="VARCHAR" />
+    <result column="share_id" property="share_id" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, scan_id, share_id
+  </sql>
+  <select id="selectMyTeam" parameterType="java.lang.String" resultType="com.xja.wechat.bean.MyTeam">
+  	select 
+	t1.nickname, t1.subscribeTime, t1.subscribe
+	from wx_user t1
+	WHERE
+	openid in (
+	select scan_id from pull_user
+	where share_id = #{openid}
+	) 
+  </select>
+  <select id="selectMyTeamCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+  	select 
+	count(t1.id)
+	from wx_user t1
+	WHERE
+	openid in (
+	select scan_id from pull_user
+	where share_id = #{openid}
+	) 
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from pull_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pull_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xja.wechat.entity.PullUser" >
+    insert into pull_user (id, scan_id, share_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{scan_id,jdbcType=VARCHAR}, #{share_id,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xja.wechat.entity.PullUser" >
+    insert into pull_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="scan_id != null" >
+        scan_id,
+      </if>
+      <if test="share_id != null" >
+        share_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="scan_id != null" >
+        #{scan_id,jdbcType=VARCHAR},
+      </if>
+      <if test="share_id != null" >
+        #{share_id,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xja.wechat.entity.PullUser" >
+    update pull_user
+    <set >
+      <if test="scan_id != null" >
+        scan_id = #{scan_id,jdbcType=VARCHAR},
+      </if>
+      <if test="share_id != null" >
+        share_id = #{share_id,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xja.wechat.entity.PullUser" >
+    update pull_user
+    set scan_id = #{scan_id,jdbcType=VARCHAR},
+      share_id = #{share_id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
